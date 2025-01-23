@@ -9,7 +9,7 @@ import { ToastContainer } from 'react-toastify'
 function App() {  
   const { viewEditTagsModal } = useAppSelector((state) => state.modal);
   return (
-    <div className='App'>
+    <div className='app'>
       <ToastContainer
         position='bottom-right'
         theme='light'

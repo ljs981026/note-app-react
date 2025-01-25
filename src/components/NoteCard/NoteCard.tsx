@@ -4,6 +4,7 @@ import { Note } from "../../types/note"
 import { Card, ContentBox, FooterBox, TagsBox, TopBox } from "./NoteCard.styles";
 import getRelevantBtns from "../../utils/getRelevantBtns";
 import { useAppDispatch } from "../../hook/redux";
+import { setPinndedNotes } from "../../store/notesList/notesListSlice";
 
 interface NoteCardProps {
   note: Note,
@@ -24,7 +25,10 @@ const NoteCard = ({ note, type }: NoteCardProps) => {
             {priority}
           </span>
           {type !== "archive" && type !== "trash" && (
-            <NotesIconBox className="noteCard__pin">
+            <NotesIconBox 
+              className="noteCard__pin"
+              onClick={() => dispatch(setPinndedNotes({id}))}
+            >
               <BsFillPinFill style={{color: isPinned ? "red" : ""}} />
             </NotesIconBox>
           )}

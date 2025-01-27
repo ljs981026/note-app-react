@@ -1,6 +1,6 @@
-import ReactQuill from 'react-quill';
+import ReactQuill from 'react-quill-new';
 import { Container } from './TextEditor.styles';
-import 'react-quill/dist/quill.snow.css';
+import 'react-quill-new/dist/quill.snow.css';
 import { formats, modules } from '../../utils/textEditorOptions';
 
 interface TextEditorProps {
@@ -11,7 +11,7 @@ interface TextEditorProps {
 
 const TextEditor = ({ value, setValue, color }: TextEditorProps) => {
   return (
-    <Container noteColor={color}>
+    <Container notecolor={color}>
       <ReactQuill
         formats={formats}
         modules={modules}

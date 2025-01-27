@@ -1,44 +1,50 @@
-import { BsFillPinFill } from "react-icons/bs";
-import { NotesIconBox } from "../../styles/styles";
-import { Note } from "../../types/note"
-import { Card, ContentBox, FooterBox, TagsBox, TopBox } from "./NoteCard.styles";
-import getRelevantBtns from "../../utils/getRelevantBtns";
-import { useAppDispatch } from "../../hook/redux";
-import { setPinndedNotes } from "../../store/notesList/notesListSlice";
+import { BsFillPinFill } from 'react-icons/bs';
+import { NotesIconBox } from '../../styles/styles';
+import { Note } from '../../types/note';
+import { Card, ContentBox, FooterBox, TagsBox, TopBox } from './NoteCard.styles';
+import getRelevantBtns from '../../utils/getRelevantBtns';
+import { useAppDispatch } from '../../hook/redux';
+import { setPinndedNotes } from '../../store/notesList/notesListSlice';
+
+import parse from 'html-react-parser';
 
 interface NoteCardProps {
-  note: Note,
-  type: string,
+  note: Note;
+  type: string;
 }
 
 const NoteCard = ({ note, type }: NoteCardProps) => {
   const { title, content, tags, color, priority, date, isPinned, isRead, id } = note;
   const dispatch = useAppDispatch();
+  const sliceContent = () => {
+    const imgContent = content.includes('img');
+    if (imgContent) {
+      return content;
+    } else {
+      return content.length > 75 ? content.slice(0, 75) + '...' : content;
+    }
+  };
   return (
-    <Card style={{background: color}}>
+    <Card style={{ background: color }}>
       <TopBox>
         <div className="noteCard__title">
-          {title.length > 10 ? title.slice(0,10) + "..." : title}
+          {title.length > 10 ? title.slice(0, 10) + '...' : title}
         </div>
         <div className="noteCard__top-options">
-          <span className="noteCard__priority">
-            {priority}
-          </span>
-          {type !== "archive" && type !== "trash" && (
-            <NotesIconBox 
+          <span className="noteCard__priority">{priority}</span>
+          {type !== 'archive' && type !== 'trash' && (
+            <NotesIconBox
               className="noteCard__pin"
-              onClick={() => dispatch(setPinndedNotes({id}))}
+              onClick={() => dispatch(setPinndedNotes({ id }))}
             >
-              <BsFillPinFill style={{color: isPinned ? "red" : ""}} />
+              <BsFillPinFill style={{ color: isPinned ? 'red' : '' }} />
             </NotesIconBox>
           )}
         </div>
       </TopBox>
-      <ContentBox>
-        {content}
-      </ContentBox>
+      <ContentBox>{parse(sliceContent())}</ContentBox>
       <TagsBox>
-        {tags.map(({tag, id}) => (
+        {tags.map(({ tag, id }) => (
           <span key={id}>{tag}</span>
         ))}
       </TagsBox>
@@ -47,7 +53,7 @@ const NoteCard = ({ note, type }: NoteCardProps) => {
         <div>{getRelevantBtns(type, note, dispatch)}</div>
       </FooterBox>
     </Card>
-  )
-}
+  );
+};
 
-export default NoteCard
+export default NoteCard;

@@ -1,9 +1,8 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
-export const Container = styled.div<{ noteColor: string }>`
-    .ql-editor {
-        height: 200px;
-        background-color: ${({ noteColor }) => noteColor}
-    }
-`
-
+export const Container = styled.div<{ notecolor: string }>`
+  .ql-editor {
+    height: 200px;
+    background-color: ${({ notecolor }) => notecolor};
+  }
+`;

@@ -1,43 +1,44 @@
-import { useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../../hook/redux"
-import { DeleteBox, FixedContainer } from "../Modal.styles";
-import { AddedTagsBox, Box, OptionsBox, StyledInput, TopBox } from "./CreateNoteModal.styles";
-import { toggleCreateNoteModal, toggleTagsModal } from "../../../store/modal/modalSlice";
-import { setEditNote } from "../../../store/notesList/notesListSlice";
-import { ButtonFill, ButtonOutline } from "../../../styles/styles";
-import { FaPlus, FaTimes } from "react-icons/fa";
-import TagsModal from "../TagsModal/TagsModal";
-import { v4 } from "uuid";
+import { useState } from 'react';
+import { useAppDispatch, useAppSelector } from '../../../hook/redux';
+import { DeleteBox, FixedContainer } from '../Modal.styles';
+import { AddedTagsBox, Box, OptionsBox, StyledInput, TopBox } from './CreateNoteModal.styles';
+import { toggleCreateNoteModal, toggleTagsModal } from '../../../store/modal/modalSlice';
+import { setEditNote } from '../../../store/notesList/notesListSlice';
+import { ButtonFill, ButtonOutline } from '../../../styles/styles';
+import { FaPlus, FaTimes } from 'react-icons/fa';
+import TagsModal from '../TagsModal/TagsModal';
+import { v4 } from 'uuid';
+import TextEditor from '../../TextEditor/TextEditor';
 
 const CreateNoteModal = () => {
   const dispatch = useAppDispatch();
   const { editNote } = useAppSelector((state) => state.noteList);
   const { viewAddTagsModal } = useAppSelector((state) => state.modal);
-  const [noteTitle, setNoteTitle] = useState(editNote?.title || "");
-  const [value, setValue] = useState(editNote?.content || "");
+  const [noteTitle, setNoteTitle] = useState(editNote?.title || '');
+  const [value, setValue] = useState(editNote?.content || '');
   const [addedTags, setAddedTags] = useState(editNote?.tags || []);
-  const [noteColor, setNoteColor] = useState(editNote?.color || "");
-  const [priority, setPriority] =useState(editNote?.priority || "low");
+  const [noteColor, setNoteColor] = useState(editNote?.color || '');
+  const [priority, setPriority] = useState(editNote?.priority || 'low');
 
   const closeCreateNoteModal = () => {
     dispatch(toggleCreateNoteModal(false));
     dispatch(setEditNote(null));
-  }
+  };
 
   const tagsHandler = (tag: string, type: string) => {
     const newTag = tag.toLocaleLowerCase();
     if (type === 'add') {
-      setAddedTags((prev) => [...prev, {tag: newTag, id: v4()}])
+      setAddedTags((prev) => [...prev, { tag: newTag, id: v4() }]);
     } else {
-      setAddedTags(addedTags.filter(({tag}) => tag !== newTag))
+      setAddedTags(addedTags.filter(({ tag }) => tag !== newTag));
     }
-  }
+  };
 
   return (
     <FixedContainer>
-      { viewAddTagsModal &&
+      {viewAddTagsModal && (
         <TagsModal type="add" addedTags={addedTags} handleTags={tagsHandler} />
-      }
+      )}
 
       <Box>
         <TopBox>
@@ -45,9 +46,7 @@ const CreateNoteModal = () => {
           <DeleteBox
             className="createNote__close-btn"
             onClick={closeCreateNoteModal}
-          >
-
-          </DeleteBox>
+          ></DeleteBox>
         </TopBox>
         <StyledInput
           type="text"
@@ -56,21 +55,25 @@ const CreateNoteModal = () => {
           placeholder="제목..."
           onChange={(e) => setNoteTitle(e.target.value)}
         />
+        <div>
+          <TextEditor value={value} setValue={setValue} color={noteColor} />
+        </div>
         <AddedTagsBox>
-          {addedTags.map(({tag, id}) => (
+          {addedTags.map(({ tag, id }) => (
             <div key={id}>
               <span className="createNote__tag">{tag}</span>
-              <span className="createNote__tag-remove"
-                onClick={() => tagsHandler(tag, "remove")}
+              <span
+                className="createNote__tag-remove"
+                onClick={() => tagsHandler(tag, 'remove')}
               >
-                <FaTimes/>
+                <FaTimes />
               </span>
             </div>
           ))}
         </AddedTagsBox>
         <OptionsBox>
           <ButtonOutline
-            onClick={() => dispatch(toggleTagsModal({type: 'add', view: 'true'}))}
+            onClick={() => dispatch(toggleTagsModal({ type: 'add', view: 'true' }))}
           >
             Add Tag
           </ButtonOutline>
@@ -98,16 +101,23 @@ const CreateNoteModal = () => {
               <option value="low">Low</option>
               <option value="high">High</option>
             </select>
-          </div>          
+          </div>
         </OptionsBox>
         <div className="createNote__create-btn">
           <ButtonFill>
-            {editNote ? <span>저장하기</span> : <><FaPlus/><span>생성하기</span></>}
+            {editNote ? (
+              <span>저장하기</span>
+            ) : (
+              <>
+                <FaPlus />
+                <span>생성하기</span>
+              </>
+            )}
           </ButtonFill>
-        </div>        
+        </div>
       </Box>
     </FixedContainer>
-  )
-}
+  );
+};
 
-export default CreateNoteModal
+export default CreateNoteModal;

@@ -31,8 +31,7 @@ const getAllNotes = (mainNotes: Note[], filter: string) => {
 
   const pinned = mainNotes.filter(({isPinned}) => isPinned);
   const normal = mainNotes.filter(({isPinned}) => !isPinned);
-
-  console.log(filter);
+  
 
   if(normal.length !== 0 && pinned.length === 0) {
     return (

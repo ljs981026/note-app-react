@@ -11,6 +11,7 @@ const Navbar = () => {
   const dispatch = useAppDispatch();
 
   const { pathname, state } = useLocation();  
+  
   if (pathname === "/404") {
     return null;
   }
@@ -22,7 +23,7 @@ const Navbar = () => {
       </div>      
       <Container>
         <div className="nav__page-title">
-         {getStandardName(state)}
+         {state === null ? "Notes" : getStandardName(state)}
         </div>
         { state !== "Trash" && state !== "Archive" &&
           <ButtonFill onClick={() => dispatch(toggleCreateNoteModal(true))} className="nav__btn">

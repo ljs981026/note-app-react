@@ -18,7 +18,7 @@ const Sidebar = () => {
   const { isOpen } = useAppSelector((state) => state.menu);
   const { tagsList } = useAppSelector((state) => state.tags);
   const { pathname } = useLocation();
-
+  
   if (pathname === '/404') {
     return null;
   }

@@ -1,7 +1,19 @@
+import { NotesContainer } from "../../styles/styles";
+import { Note } from "../../types/note"
+import NoteCard from "../NoteCard/NoteCard";
 
-const MainWrapper = () => {
+interface MainWrapperProps {
+  notes: Note[];
+  type: string;
+}
+
+const MainWrapper = ({notes, type}: MainWrapperProps) => {
   return (
-    <div>MainWrapper</div>
+    <NotesContainer>
+      { notes.map((note) => (
+        <NoteCard key={note.id} note={note} type={type} />
+      ))}
+    </NotesContainer>
   )
 }
 
